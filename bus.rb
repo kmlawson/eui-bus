@@ -49,5 +49,6 @@ get '/' do
 end
 
 get '/*' do
-	"You passed #{params[:splat]}"
+	@tabledata= getpage(params[:splat])
+	erb :index
 end
