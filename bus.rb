@@ -30,7 +30,7 @@ def getpage(whichstop)
 	elsif whichstop=='sdnorth'
 		mytable=nil
 	elsif whichstop=='sm7'
-		mytable=nil
+		mytable='TEST'
 	elsif whichstop=='sm1a'
 		mytable=nil
 	elsif whichstop=='sm1b'
