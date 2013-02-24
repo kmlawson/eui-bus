@@ -1,3 +1,59 @@
 h1 {
-	font: 200% 'Archivo Black', sans-serif;
+	font: large sans-serif;
 }
+
+p {
+	font-size: medium;
+}
+	.green {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: medium;
+		background-color: #BAF7B5;
+	}
+	.greengrey {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: medium;
+		background-color: #BAF7B5;
+	}
+	.style1 {font-family: Arial, Helvetica, sans-serif;
+	font-size: medium; font-weight: bold; }
+	.style2 {font-size: small}
+
+table {
+	border-collapse:collapse;
+}
+table, th, td {
+	border: 1px solid #605b5b;
+}
+
+.orario-fermata-gridview-header td {
+	background-color: #ffe5ee;
+	text-align: right;
+	padding-right: 5px;
+}
+	.grey {
+		background-color: #CCCCCC; 
+	}
+	.red {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: medium;
+		background-color: #FAA0A0;
+	}
+	.redgrey {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: medium;
+		background-color: #FAA0A0;
+	}
+	a:link {
+		color: #333333;
+	}
+	.style2 {font-size: small}
+	a:visited {
+		color: #333333;
+	}
+	a:hover {
+		color: #333333;
+	}
+	a:active {
+		color: #333333;
+	}
