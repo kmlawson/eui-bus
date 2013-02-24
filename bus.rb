@@ -1,22 +1,34 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'json'
-require 'net/http'
-
-url = 'http://www.temporealeataf.it/Mixer/Rest/PublicTransportService.svc/schedule?callback=bus&nodeID=FM1926&lat=43.79937&lon=11.27518&timeZone=%2B1&s=e310fcc7ae7a5d6901a53808006c4705bc776c7b&_=1361694617588'
-
-resp = Net::HTTP.get_response(URI.parse(url))
-
-busjson = resp.body
-busjson.sub!("bus(","")
-busjson.sub!("[","") # Do this separately so we capture null
-busjson.sub!("]","")
-busjson.sub!(");","")
-if busjson=="null" or busjson=="" or busjson==" "
-	puts "No info. Bus probably just passed. Check again in a few minutes."
+require 'mechanize'
+weekday=Time.now.wday
+if weekday==0
+	# Sunday
+	daystring='festivi'
+	servizio='5'
+	orario='0'
+elsif weekday==6
+	# Saturday
+	daystring='sabato'
+	servizio='4'
+	orario='1'
 else
-	data=JSON.parse(busjson)
-	time=Time.at(data['d'].to_i/1000).strftime('%R')
-	puts "Next Bus: #{time}"
+	# Weekday
+	daystring='feriali'
+	servizio='3'
+	orario='2'
+end
+
+a=Mechanize.new { |agent| agent.user_agent_alias='Mac Safari'}   
+page=a.get("http://www.ataf.net/en/timetables-and-routes/timetables-and-routes/line-1/stop-salviati-fs/#{daystring}/timetables.aspx?date=24%2f02&DescrFermata=SALVIATI+FS&Fermata=FM1926&idC=180&idO=0&Linea=1&LN=en-US&Orario=#{orario}&Servizio=#{servizio}&Tmp=0&Verso=d")
+mytable=page.search '//*[@id="ctl00_ContentPlaceHolderMain_GridViewOrarioDTrasposto"]'
+
+get '/' do
+	"<h1>Busses Near EUI</h1><br /><br />
+	<a href='/flats'>Bus 1A From Salviati to Santa Maria Novella</a>"
+end
+
+get '/flats' do
+	mytable
 end
