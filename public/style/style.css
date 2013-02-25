@@ -26,6 +26,9 @@ table {
 
 }
 
+td {
+	padding-left: 7px;
+}
 .orario-fermata-gridview-header {
 	background-color: #ffd3ac;
 	text-align: right;
