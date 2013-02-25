@@ -77,8 +77,8 @@ def getpage(whichstop)
 		mytable=nil
 	end
 end
-set :raise_errors => true
-set :show_exceptions => true
+# set :raise_errors => true
+# set :show_exceptions => true
 get '/' do
 	"<!doctype html>
 	<html lang='en'>
