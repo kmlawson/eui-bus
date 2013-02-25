@@ -1,0 +1,1 @@
+This cache folder allows the script to cache the results of the scrape, so that the times load faster and the burden on ATAF is decreased. The script replaces the cache if it is older than about 1 hour.
