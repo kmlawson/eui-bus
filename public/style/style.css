@@ -1,7 +1,9 @@
 h1 {
 	font: bold x-large sans-serif;
 }
-
+h2 {
+	font: bold medium sans-serif;
+}
 p {
 	font: medium "Lucida Grande", Lucida, Verdana, sans-serif;
 }
