@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'mechanize'
 def getvars()
-	weekday=Time.now.wday
+	weekday=(Time.now.getgm+3600).wday
 	if weekday==0
 		# Sunday
 		daystring='festivi'
@@ -23,10 +23,15 @@ def getvars()
 	return Hash["daystring"=>daystring,"servizio"=>servizio,"orario"=>orario]
 end
 
-a=Mechanize.new { |agent| agent.user_agent_alias='Mac Safari'}   
 
-def getpage(whichstop,a)
+def getpage(whichstop)
 	whichstop=whichstop[0]
+	# Check if cache has this already:
+	if File.exists?("cache/#{whichstop}.cache") && Time.now-File.mtime("cache/#{whichstop}.cache")<3480
+		# The cache is less than 58 minutes old, uses it
+		return contents = File.open("cache/#{whichstop}.cache", 'rb') { |f| f.read }
+	end
+	a=Mechanize.new { |agent| agent.user_agent_alias='Mac Safari'}   
 	vars=getvars()
 	daystring=vars["daystring"]
 	servizio=vars["servizio"]
@@ -34,6 +39,7 @@ def getpage(whichstop,a)
 	if whichstop=='flats'
 		page=a.get("http://www.ataf.net/en/timetables-and-routes/timetables-and-routes/line-1/stop-salviati-fs/#{daystring}/timetables.aspx?date=24%2f02&DescrFermata=SALVIATI+FS&Fermata=FM1926&idC=180&idO=0&Linea=1&LN=en-US&Orario=#{orario}&Servizio=#{servizio}&Tmp=0&Verso=d")
 		mytable=page.search '//*[@id="ctl00_ContentPlaceHolderMain_GridViewOrarioDTrasposto"]'
+		File.open("cache/#{whichstop}.cache", 'w') {|f| f.write(mytable) }
 		return mytable
 	elsif whichstop=='sdsouth'
 		page=a.get("http://www.ataf.net/en/timetables-and-routes/timetables-and-routes/line-7/stop-san-domenico/#{daystring}/timetables.aspx?date=25%2f02&DescrFermata=SAN+DOMENICO&Fermata=FM0380&idC=180&idO=0&Linea=7&LN=en-US&Orario=#{orario}&Servizio=#{servizio}&Tmp=0&Verso=d")
@@ -107,6 +113,6 @@ get '/' do
 end
 
 get '/*' do
-	@tabledata=getpage(params[:splat],a)
+	@tabledata=getpage(params[:splat])
 	erb :index
 end
