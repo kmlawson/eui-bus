@@ -1,6 +1,3 @@
-require 'sinatra'
-require "bus"
-
-
+require 'bus_app'
 
 run Sinatra::Application
